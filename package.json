@@ -1,0 +1,69 @@
+{
+  "name": "character-sheet-generator",
+  "version": "0.1.0",
+  "description": "A GUI for generating Roll20 character sheet HTML and CSS files from handlebars templates and SCSS.",
+  "main": "dist/main-bundle.js",
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "clean": "rimraf dist release",
+    "ng": "ng",
+    "ng:serve:web": "ng serve -c web -o",
+    "prebuild": "npm run clean",
+    "build:serve": "webpack",
+    "build": "npm run build:serve && ng build",
+    "build:prod": "npm run build -- -c production",
+    "start": "npm run build && electron .",
+    "electron:serve": "wait-on http-get://localhost:4200/ && npm run build:serve && electron . --serve",
+    "electron:local": "npm run build:prod && electron .",
+    "electron:linux": "npm run build:prod && electron-builder build --linux",
+    "electron:mac": "npm run build:prod && electron-builder build --mac",
+    "electron:windows": "npm run build:prod && electron-builder build --windows"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrimalZed/character-sheet-generator.git"
+  },
+  "keywords": [
+    "handlebars",
+    "scss",
+    "electron"
+  ],
+  "author": "Primal Zed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PrimalZed/character-sheet-generator/issues"
+  },
+  "homepage": "https://github.com/PrimalZed/character-sheet-generator#readme",
+  "dependencies": {
+    "@angular/common": "^9.0.5",
+    "@angular/compiler": "^9.0.5",
+    "@angular/core": "^9.0.5",
+    "@angular/forms": "^9.0.5",
+    "@angular/localize": "^9.0.5",
+    "@angular/platform-browser": "^9.0.5",
+    "@angular/platform-browser-dynamic": "^9.0.5",
+    "camel-case": "^4.1.1",
+    "handlebars": "^4.7.6",
+    "handlebars-helper-repeat": "^2.0.0",
+    "handlebars-helpers": "^0.10.0",
+    "rxjs": "^6.5.5",
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2"
+  },
+  "devDependencies": {
+    "@angular-builders/custom-webpack": "^9.0.0",
+    "@angular-devkit/build-angular": "^0.900.5",
+    "@angular/cli": "^9.0.5",
+    "@angular/compiler-cli": "^9.0.5",
+    "@angular/language-service": "^9.0.5",
+    "electron": "^8.2.0",
+    "electron-builder": "^22.4.1",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "unlazy-loader": "^0.1.3",
+    "wait-on": "^4.0.1",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
