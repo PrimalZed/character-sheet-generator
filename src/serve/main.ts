@@ -19,8 +19,7 @@ function createWindow(): BrowserWindow {
     width: 600, 
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
-      allowRunningInsecureContent: (serve) ? true : false
+      nodeIntegration: true
     }
   });
   // console.log("basedir", __basedir);

@@ -41,7 +41,7 @@
   </fieldset>
   <div>
     <button type="submit" [disabled]="!htmlForm.form.valid || (submitting$ | async)">Generate!</button>
-    <span *ngIf="success$ | async" style="color: green;">Success!</span>
-    <span *ngIf="failure$ | async as failure" style="color: red;">Failure: {{ failure | json }}</span>
+    <span *ngIf="success$ | async" class="success">Success!</span>
+    <span *ngIf="failure$ | async as failure" class="failure">Failure: {{ failure | json }}</span>
   </div>
 </form>
