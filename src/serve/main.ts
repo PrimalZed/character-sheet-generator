@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, shell } from "electron";
 import { merge } from "rxjs";
 import * as path from "path";
 import * as url from "url";
@@ -38,6 +38,12 @@ function createWindow(): BrowserWindow {
   if (serve) {
     win.webContents.openDevTools();
   }
+
+  // Event when a hyperlink with target="_blank" is clicked
+  win.webContents.on('new-window', function(e, url) {
+    e.preventDefault();
+    shell.openExternal(url);
+  });
 
   // Event when the window is closed.
   win.on("closed", function () {

@@ -1,47 +1,7 @@
-<h1>Generate HTML</h1>
-<form #htmlForm="ngForm" (ngSubmit)="submit(htmlForm.form.value)">
+<div>
   <div>
-    <div>Sheet Directory:</div>
-    <div>{{ (directoryPath$ | async) || "(none)" }}</div>
-    <button type="button" (click)="selectDirectoryPath()">Change...</button>
-    <input type="hidden" name="directoryPath" [ngModel]="directoryPath$ | async" required />
+    <a routerLink="/handlebars">Handlebars</a>
+    <a routerLink="/about">About</a>
   </div>
-  <hr />
-  <fieldset [disabled]="!(directoryPath$ | async)">
-    <div>
-      <div>Template File:</div>
-      <div>{{ (templateFilePath$ | async) || "(none)" }}</div>
-      <button type="button" (click)="selectTemplateFilePath()">Change...</button>
-      <input type="hidden" name="templatePath" [ngModel]="templateFilePath$ | async" required />
-    </div>
-    <hr />
-    <div>
-      <div>Data File:</div>
-      <div>{{ (dataFilePath$ | async) || "(none)" }}</div>
-      <button type="button" (click)="selectDataFilePath()">Change...</button>
-      <input type="hidden" name="dataPath" [ngModel]="dataFilePath$ | async" required />
-    </div>
-    <hr />
-    <div>
-      <div>Partials Directory (optional):</div>
-      <div>{{ (partialsDirectoryPath$ | async) || "(none)" }}</div>
-      <button type="button" (click)="selectPartialsDirectoryPath()">Change...</button>
-      <div>
-        <div>Found Partial files:</div>
-        <div *ngIf="!(partialPaths$ | async)?.length">(none)</div>
-        <div *ngFor="let partialPath of partialPaths$ | async">{{ partialPath }}</div>
-      </div>
-      <input type="hidden" name="partialPaths" [ngModel]="partialPaths$ | async" />
-    </div>
-    <hr />
-    <div>
-      <div>Output File Name:</div>
-      <input type="text" name="output" [ngModel]="output$ | async" (ngModelChange)="changeOutput($event)" required />
-    </div>
-  </fieldset>
-  <div>
-    <button type="submit" [disabled]="!htmlForm.form.valid || (submitting$ | async)">Generate!</button>
-    <span *ngIf="success$ | async" class="success">Success!</span>
-    <span *ngIf="failure$ | async as failure" class="failure">Failure: {{ failure | json }}</span>
-  </div>
-</form>
+  <router-outlet></router-outlet>
+</div>

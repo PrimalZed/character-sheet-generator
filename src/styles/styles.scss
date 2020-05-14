@@ -5,3 +5,12 @@
 .failure {
   color: red;
 }
+
+a[target="_blank"] {
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj4KPHBhdGggZmlsbD0iI0ZGRiIgc3Ryb2tlPSIjMDZEIiBzdHJva2Utd2lkdGg9IjEwIgpkPSJtNDMsMzVINXY2MGg2MFY1N000NSw1djEwbDEwLDEwLTMwLDMwIDIwLDIwIDMwLTMwIDEwLDEwaDEwVjV6Ii8+Cjwvc3ZnPg==");
+  background-size: 1rem;
+  background-position-x: right;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  padding-right: 1rem;
+}

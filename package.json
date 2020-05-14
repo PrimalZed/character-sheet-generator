@@ -1,6 +1,6 @@
 {
   "name": "character-sheet-generator",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "A GUI for generating Roll20 character sheet HTML and CSS files from handlebars templates and SCSS.",
   "main": "dist/main-bundle.js",
   "scripts": {
@@ -42,6 +42,7 @@
     "@angular/localize": "^9.0.5",
     "@angular/platform-browser": "^9.0.5",
     "@angular/platform-browser-dynamic": "^9.0.5",
+    "@angular/router": "^9.0.5",
     "camel-case": "^4.1.1",
     "handlebars": "^4.7.6",
     "handlebars-helper-repeat": "^2.0.0",

@@ -1,0 +1,65 @@
+<h1>About</h1>
+
+<p>This application is created by Primal Zed. The source code can be found at <a href="https://github.com/PrimalZed/character-sheet-generator" target="_blank">https://github.com/PrimalZed/character-sheet-generator</a> and the latest release can be found at <a href="https://github.com/PrimalZed/character-sheet-generator/releases" target="_blank">https://github.com/PrimalZed/character-sheet-generator/releases</a>.</p>
+
+<h2>Handlebars</h2>
+
+<p>This is an assitive utility for compiling and executing <a href="https://handlebarsjs.com/guide/" target="_blank">Handlebars</a> templates.</p>
+
+<h3>Generating a file</h3>
+
+<p>After selecting a root directory, this application will scan for files:</p>
+
+<ul>
+  <li>Template file: first of...</li>
+  <ul>
+    <li>{{ '{root}' }}/src/*.handlebars</li>
+    <li>{{ '{root}' }}/src/*.hbs</li>
+    <li>{{ '{root}' }}/handlebars/*.handlebars</li>
+    <li>{{ '{root}' }}/handlebars/*.hbs</li>
+    <li>{{ '{root}' }}/hbs/*.handlebars</li>
+    <li>{{ '{root}' }}/hbs/*.hbs</li>
+    <li>{{ '{root}' }}/*.handlebars</li>
+    <li>{{ '{root}' }}/*.hbs</li>
+  </ul>
+  <li>Data file: first of...</li>
+  <ul>
+    <li>{{ '{root}' }}/src/*.json</li>
+    <li>{{ '{root}' }}/handlebars/*.json</li>
+    <li>{{ '{root}' }}/hbs/*.json</li>
+    <li>{{ '{root}' }}/*.json</li>
+  </ul>
+  <li>Partial directory: first directory of...</li>
+  <ul>
+    <li>{{ '{root}' }}/src/partials/</li>
+    <li>{{ '{root}' }}/handlebars/partials/</li>
+    <li>{{ '{root}' }}/hbs/partials/</li>
+    <li>{{ '{root}' }}/partials/</li>
+  </ul>
+  <li>Output File Name: first of...</li>
+  <ul>
+    <li>{{ '{root}' }}/*.html</li>
+  </ul>
+</ul>
+
+<p>Any of these selections can be changed after choosing a root directory.</p>
+
+<p>The generated file will be placed in the root directory. If a file with that name already exists, it will be overwritten.</p>
+
+<h3>Helpers</h3>
+
+<p>Helpers from the following lists can be used:</p>
+
+<ul>
+  <li><a href="https://handlebarsjs.com/guide/builtin-helpers.html" target="_blank">Built-In Helpers</a></li>
+  <li><a href="https://github.com/helpers/handlebars-helpers#helpers" target="_blank">Handlebars Helpers</a> (except for 'fs', 'html', and 'misc' helpers)</li>
+  <li><a href="https://github.com/helpers/handlebars-helper-repeat#usage-examples" target="_blank">Handlebars Helper Repeat</a></li>
+</ul>
+
+<h3>Examples</h3>
+
+<p>Example handlebars templates can be found at <a href="https://github.com/PrimalZed/handlebars-poc" target="_blank">Primal Zed's Handlebars POC</a>.</p>
+
+<p>Just download the files and select example-1, example-2, or example-3 as the root directory.</p>
+
+<p>For more information about Handlebars, refer to the <a href="https://handlebarsjs.com/guide/" target="_blank">Handlebars Guide</a>.</p>
