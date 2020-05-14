@@ -1,7 +1,7 @@
 
 import { camelCase } from "camel-case";
 import { combineLatest, concat, from, EMPTY } from "rxjs";
-import { catchError, finalize, map, mergeMap, switchMap, tap } from "rxjs/operators";
+import { catchError, last, map, mergeMap, switchMap, tap } from "rxjs/operators";
 import { promisify } from "util";
 import * as fs from "fs";
 import * as handlebars from "handlebars";
@@ -37,9 +37,11 @@ export class HandlebarsService {
 
         return concat(registerPartialFiles$, writeFile$)
           .pipe(
-            finalize(() => event.reply(constants.GENERATE_HANDLEBARS_SUCCESS)),
+            last(),
+            tap(() => event.reply(constants.GENERATE_HANDLEBARS_SUCCESS)),
             catchError((err) => {
               console.error(err && err.message || err);
+              event.reply(constants.GENERATE_HANDLEBARS_FAILURE, err);
               return EMPTY;
             })
           );

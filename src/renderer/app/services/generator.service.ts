@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ipcRenderer } from "electron";
-import { shareReplay } from "rxjs/operators";
+import { map, shareReplay } from "rxjs/operators";
 import { IpcRendererService } from "./ipc-renderer.service";
 import * as constants from "../../../electron.constants";
 
@@ -11,6 +11,11 @@ export class GeneratorService {
   public htmlSuccess$ = this.ipcRendererService.fromEvent(constants.GENERATE_HANDLEBARS_SUCCESS)
     .pipe(
       shareReplay(1)
+    );
+
+  public htmlFailure$ = this.ipcRendererService.fromEvent<any>(constants.GENERATE_HANDLEBARS_FAILURE)
+    .pipe(
+      map(({ args: [error] }) => error && error.message || error)
     );
 
   constructor(private ipcRendererService: IpcRendererService) { }

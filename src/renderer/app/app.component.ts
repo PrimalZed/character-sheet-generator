@@ -42,15 +42,21 @@ export class AppComponent {
     );
 
   private outputSubject: Subject<string> = new Subject();
-  public output$ = merge(this.outputSubject, this.filePathService.output$.pipe(map(({ output }) => output.split("/").pop())));
+  public output$ = merge(this.outputSubject, this.filePathService.output$.pipe(map(({ output }) => output && output.split("/").pop() || null)));
 
   private submittingSubject: Subject<void> = new Subject();
-  public submitting$ = merge(this.submittingSubject.pipe(mapTo(true)),this.generatorService.htmlSuccess$.pipe(mapTo(false)));
+  public submitting$ = merge(
+    this.submittingSubject.pipe(mapTo(true)),
+    this.generatorService.htmlSuccess$.pipe(mapTo(false)),
+    this.generatorService.htmlFailure$.pipe(mapTo(false))
+  );
 
   public success$ = this.generatorService.htmlSuccess$
     .pipe(
       switchMap(() => timer(5000).pipe(mapTo(false),startWith(true)))
-    )
+    );
+
+  public failure$ = merge(this.submittingSubject.pipe(mapTo(false)), this.generatorService.htmlFailure$);
 
   constructor(
     private filePathService: FilePathService,

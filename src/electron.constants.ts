@@ -14,6 +14,7 @@ export const SCAN_PARTIALS_SUCCESS: string = "scanPartialsSuccess";
 
 export const GENERATE_HANDLEBARS: string = "generateHandlebars";
 export const GENERATE_HANDLEBARS_SUCCESS: string = "generateHandlebarsSuccess";
+export const GENERATE_HANDLEBARS_FAILURE: string = "generateHandlebarsFailure";
 
 export const GENERATE_CSS: string = "generateCss";
 export const GENERATE_CSS_SUCCESS: string = "generateCssSuccess";
