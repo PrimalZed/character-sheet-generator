@@ -11,7 +11,7 @@ export class ScanService {
   public scanDirectory$ = fromIpcMainEvent<string>(constants.SCAN_DIRECTORY)
     .pipe(
       switchMap(({ event, args: [ directoryPath ]}) => {
-        const directories = ["src", ""];
+        const directories = ["src", "handlebars", "hbs", ""];
         var checkTemplate = this.checkFile(directoryPath, this.createPatterns(directories, ["hbs", "handlebars"]));
         var checkData = this.checkFile(directoryPath, this.createPatterns(directories, ["json"]));
         var checkPartials = this.checkDirectory(directoryPath, directories, "partials");
