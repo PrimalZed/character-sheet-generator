@@ -59,7 +59,7 @@ export class HandlebarsService {
   }
 
   private registerPartialFiles(partialPaths: string[]) {
-    return from(partialPaths)
+    return from(partialPaths ?? [])
       .pipe(
         mergeMap((match) => this.readFile(match, { encoding: "utf8" }).then((file) => ({ match, file }))),
         tap(({ match, file }) => {
