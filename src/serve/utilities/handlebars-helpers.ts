@@ -11,7 +11,7 @@ export * as inflection from "handlebars-helpers/lib/inflection";
 export * as markdown from "handlebars-helpers/lib/markdown";
 export * as match from "handlebars-helpers/lib/match";
 export * as math from "handlebars-helpers/lib/math";
-// export * as misc from "handlebars-helpers/lib/misc";
+export * as misc from "handlebars-helpers/lib/misc";
 export * as number from "handlebars-helpers/lib/number";
 export * as object from "handlebars-helpers/lib/object";
 export * as path from "handlebars-helpers/lib/path";
