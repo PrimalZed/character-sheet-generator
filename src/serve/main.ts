@@ -1,11 +1,9 @@
 import { app, BrowserWindow, shell } from "electron";
 import { merge } from "rxjs";
 import * as path from "path";
-import * as url from "url";
 import { DialogService } from "./services/dialog.service";
 import { HandlebarsService } from "./services/handlebars.service";
 import { ScanService } from "./services/scan.service";
-// import __basedir from "../basedir";
 
 app.allowRendererProcessReuse = false;
 
@@ -19,20 +17,15 @@ function createWindow(): BrowserWindow {
     width: 600, 
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false
     }
   });
-  // console.log("basedir", __basedir);
-  // console.log("dirname", __dirname);
 
   if (serve) {
     win.loadURL("http://localhost:4200");
   } else {
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, "renderer/index.html"),
-      protocol: "file:",
-      slashes: true
-    }));
+    win.loadURL(new URL(`file:///${path.join(__dirname, "renderer/index.html")}`).toString());
   }
 
   if (serve) {
@@ -40,9 +33,9 @@ function createWindow(): BrowserWindow {
   }
 
   // Event when a hyperlink with target="_blank" is clicked
-  win.webContents.on('new-window', function(e, url) {
-    e.preventDefault();
-    shell.openExternal(url);
+  win.webContents.setWindowOpenHandler((details) => {
+    shell.openExternal(details.url);
+    return { action: 'deny' };
   });
 
   // Event when the window is closed.

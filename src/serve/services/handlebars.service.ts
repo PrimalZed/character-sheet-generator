@@ -29,7 +29,7 @@ export class HandlebarsService {
             map((file) => JSON.parse(file))
           );
         const outputPath = path.join(directoryPath, output);
-        const writeFile$ = combineLatest(template$, data$)
+        const writeFile$ = combineLatest([template$, data$])
           .pipe(
             map(([template, data]) => template(data)),
             switchMap((outFile) => this.writeFile(outputPath, outFile))
