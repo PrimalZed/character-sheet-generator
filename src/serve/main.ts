@@ -7,13 +7,13 @@ import { ScanService } from "./services/scan.service";
 
 app.allowRendererProcessReuse = false;
 
-let win: BrowserWindow = null;
+let mainWindow: BrowserWindow = null;
 const args = process.argv.slice(1),
     serve = args.some(val => val === "--serve");
 
 function createWindow(): BrowserWindow {
   // Create the browser window.
-  win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 600, 
     height: 600,
     webPreferences: {
@@ -23,27 +23,27 @@ function createWindow(): BrowserWindow {
   });
 
   if (serve) {
-    win.loadURL("http://localhost:4200");
+    mainWindow.loadURL("http://localhost:4200");
   } else {
-    win.loadURL(new URL(`file:///${path.join(__dirname, "renderer/index.html")}`).toString());
+    mainWindow.loadURL(new URL(`file:///${path.join(__dirname, "renderer/index.html")}`).toString());
   }
 
   if (serve) {
-    win.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
   }
 
   // Event when a hyperlink with target="_blank" is clicked
-  win.webContents.setWindowOpenHandler((details) => {
+  mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
     return { action: 'deny' };
   });
 
   // Event when the window is closed.
-  win.on("closed", function () {
-    win = null
+  mainWindow.on("closed", function () {
+    mainWindow = null
   });
 
-  return win;
+  return mainWindow;
 }
 
 const dialogService = new DialogService();
@@ -68,4 +68,10 @@ app.on("window-all-closed", function () {
     subscription.unsubscribe();
   }
   app.quit();
+});
+
+app.on("activate", function() {
+  if (mainWindow === null) {
+    createWindow();
+  }
 });
