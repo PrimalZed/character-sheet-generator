@@ -1,3 +1,4 @@
+export const LOAD_APP_DATA_DIRECTORY: string = "loadAppDataDirectory";
 export const SHOW_DIALOG_FILE: string = "showDialogFile";
 export const SHOW_DIALOG_DIRECTORY: string = "showDialogDirectory";
 

@@ -90,7 +90,9 @@ export class FilePathService {
     extensions: ["json"]
   };
 
-  constructor(private ipcRendererService: IpcRendererService) { }
+  constructor(private ipcRendererService: IpcRendererService) {
+    ipcRenderer.send(constants.LOAD_APP_DATA_DIRECTORY, constants.DIRECTORY_SUCCESS);
+  }
 
   public dispatchSelectDirectory() {
     ipcRenderer.send(constants.SHOW_DIALOG_DIRECTORY, constants.DIRECTORY_SUCCESS);

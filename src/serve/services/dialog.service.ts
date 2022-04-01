@@ -1,6 +1,6 @@
 import { FileFilter, IpcMainEvent, ipcMain, dialog } from "electron";
 import { Observable } from "rxjs";
-import { switchMap, tap } from "rxjs/operators";
+import { map, shareReplay, switchMap, tap } from "rxjs/operators";
 import * as constants from "../../electron.constants";
 
 export class DialogService {
@@ -31,8 +31,14 @@ export class DialogService {
         dialog.showOpenDialog({ properties: [ "openDirectory" ] })
           .then((dialogReturn) => ({ event, dialogReturn, responseChannel }))
       ),
-      tap(({ event, dialogReturn, responseChannel }) => {
-        event.reply(responseChannel, dialogReturn.filePaths.length && dialogReturn.filePaths[0]);
-      })
+      map(({ event, dialogReturn, responseChannel }) => ({
+        event,
+        responseChannel,
+        directory: dialogReturn.filePaths.length && dialogReturn.filePaths[0]
+      })),
+      tap(({ event, directory, responseChannel }) => {
+        event.reply(responseChannel, directory);
+      }),
+      shareReplay(1)
     );
 }

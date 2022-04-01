@@ -1,9 +1,12 @@
 import { app, BrowserWindow, shell } from "electron";
 import { merge } from "rxjs";
+import { filter, map, shareReplay } from "rxjs/operators";
 import * as path from "path";
 import { DialogService } from "./services/dialog.service";
 import { HandlebarsService } from "./services/handlebars.service";
 import { ScanService } from "./services/scan.service";
+import * as constants from "../electron.constants";
+import { AppDataService } from "./services/app-data.service";
 
 app.allowRendererProcessReuse = false;
 
@@ -49,13 +52,15 @@ function createWindow(): BrowserWindow {
 const dialogService = new DialogService();
 const scanService = new ScanService();
 const handlebarsService = new HandlebarsService();
+const appDataService = new AppDataService(dialogService);
 
 const subscription = merge(
     dialogService.getFilePath$,
     dialogService.getDirectoryPath$,
     scanService.scanDirectory$,
     scanService.scanPartials$,
-    handlebarsService.generate$
+    handlebarsService.generate$,
+    appDataService.loadDirectory$
   )
   .subscribe();
 
@@ -64,10 +69,16 @@ app.on("ready", createWindow);
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
-  if (subscription && !subscription.closed) {
-    subscription.unsubscribe();
-  }
-  app.quit();
+  appDataService.saveDirectory()
+    .subscribe({
+      complete: () => {
+        if (subscription && !subscription.closed) {
+          subscription.unsubscribe();
+        }
+        
+        app.quit();
+      }
+    });
 });
 
 app.on("activate", function() {
