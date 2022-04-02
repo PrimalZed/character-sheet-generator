@@ -1,6 +1,6 @@
 import { app, ipcMain, IpcMainEvent } from "electron";
-import { Observable } from "rxjs";
-import { filter, first, map, shareReplay, startWith, switchMap, tap, withLatestFrom } from "rxjs/operators";
+import { from, Observable } from "rxjs";
+import { filter, first, map, mapTo, shareReplay, startWith, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { promisify } from "util";
 import * as fs from "fs";
 import * as path from "path";
@@ -9,10 +9,16 @@ import * as constants from "../../electron.constants";
 
 export class AppDataService {
   private readFile = promisify(fs.readFile);
+  private exists = promisify(fs.exists);
+  private mkDir = promisify(fs.mkdir);
   private writeFile = promisify(fs.writeFile);
 
-  private appDataFile = path.join(
+  private readonly path = path.join(
     app.getPath('appData'),
+    'PrimalZed/CharacterSheetGenerator'
+  );;
+  private readonly appDataFile = path.join(
+    this.path,
     'data.json'
   );
   public loadDirectory$ =
@@ -54,6 +60,15 @@ export class AppDataService {
         ),
         map(([initialDirectory, latestDirectory]) => latestDirectory ?? initialDirectory),
         filter((directory) => Boolean(directory)),
+        switchMap((directory) => from(this.exists(this.path))
+          .pipe(
+            switchMap((exists) => exists
+              ? Promise.resolve<string>(this.path)
+              : this.mkDir(this.path, { recursive: true })
+            ),
+            mapTo(directory)
+          )
+        ),
         switchMap((directory) => this.writeFile(this.appDataFile, JSON.stringify({ directory }), { encoding: 'utf8' }))
       );
   }
