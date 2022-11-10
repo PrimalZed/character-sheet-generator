@@ -57,7 +57,7 @@
     "@angular/cli": "^13.3.1",
     "@angular/compiler-cli": "^13.3.1",
     "@angular/language-service": "^13.3.1",
-    "electron": "^13.6.6",
+    "electron": "^18.3.7",
     "electron-builder": "^22.14.13",
     "rimraf": "^3.0.2",
     "ts-loader": "^9.2.8",
