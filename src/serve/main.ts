@@ -1,11 +1,9 @@
-import { app, BrowserWindow, shell } from "electron";
+import { app, BrowserWindow, Menu, shell } from "electron";
 import { merge } from "rxjs";
-import { filter, map, shareReplay } from "rxjs/operators";
 import * as path from "path";
 import { DialogService } from "./services/dialog.service";
 import { HandlebarsService } from "./services/handlebars.service";
 import { ScanService } from "./services/scan.service";
-import * as constants from "../electron.constants";
 import { AppDataService } from "./services/app-data.service";
 
 let mainWindow: BrowserWindow = null;
@@ -61,6 +59,21 @@ const subscription = merge(
     appDataService.loadDirectory$
   )
   .subscribe();
+
+const isMac = process.platform === 'darwin';
+const macAppMenu: Electron.MenuItemConstructorOptions = { role: 'appMenu' };
+const menu = Menu.buildFromTemplate([
+  ...(isMac ? [macAppMenu] : []),
+  { role: 'fileMenu' },
+  { role: 'editMenu' },
+  { role: 'viewMenu' },
+  { role: 'windowMenu' },
+  {
+    role: 'help',
+    submenu: [{ label: `Version: ${app.getVersion()}` }]
+  }
+]);
+app.applicationMenu = menu;
 
 // Create window on electron intialization
 app.on("ready", createWindow);
