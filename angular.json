@@ -103,6 +103,9 @@
           }
         }
       }
-    }},
-  "defaultProject": "renderer"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
 }
