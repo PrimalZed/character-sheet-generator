@@ -8,8 +8,6 @@ import { ScanService } from "./services/scan.service";
 import * as constants from "../electron.constants";
 import { AppDataService } from "./services/app-data.service";
 
-app.allowRendererProcessReuse = false;
-
 let mainWindow: BrowserWindow = null;
 const args = process.argv.slice(1),
     serve = args.some(val => val === "--serve");
