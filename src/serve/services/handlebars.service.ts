@@ -21,7 +21,7 @@ export class HandlebarsService {
 
         const template$ = from(this.readFile(templatePath, { encoding: "utf8" }))
           .pipe(
-            map((file) => handlebars.compile(file))
+            map((file) => handlebars.compile(file, { noEscape: true }))
           );
       
         const data$ = from(this.readFile(dataPath, { encoding: "utf8" }))
