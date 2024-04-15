@@ -38,6 +38,10 @@ export class HandlebarsService {
         return concat(registerPartialFiles$, writeFile$)
           .pipe(
             last(),
+            tap({
+              next: this.unregisterPartialFiles,
+              error: this.unregisterPartialFiles,
+            }),
             tap(() => event.reply(constants.GENERATE_HANDLEBARS_SUCCESS)),
             catchError((err) => {
               console.error(err && err.message || err);
@@ -69,5 +73,11 @@ export class HandlebarsService {
           handlebars.registerPartial(partialName, file);
         })
       );
+  }
+
+  private unregisterPartialFiles() {
+    for (const partialName of Object.keys(handlebars.partials)) {
+      handlebars.unregisterPartial(partialName);
+    }
   }
 }
