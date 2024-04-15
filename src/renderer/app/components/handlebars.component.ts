@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, OnDestroy } from "@angular/core";
 import { FilePathService } from "./../services/file-path.service";
 import { GeneratorService } from "./../services/generator.service";
-import { Subject, merge, timer } from "rxjs";
+import { BehaviorSubject, Subject, combineLatest, merge, timer } from "rxjs";
 import { map, mapTo, tap, startWith, switchMap } from "rxjs/operators";
 
 @Component({
@@ -9,7 +9,7 @@ import { map, mapTo, tap, startWith, switchMap } from "rxjs/operators";
   templateUrl: "./handlebars.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HandlebarsComponent {
+export class HandlebarsComponent implements OnDestroy {
   public directoryPath$ = this.filePathService.directoryPath$
     .pipe(
       map(({ directoryPath }) => directoryPath || null),
@@ -41,6 +41,12 @@ export class HandlebarsComponent {
       map(({ filePaths }) => filePaths || null),
     );
 
+  private scanPartialsSubject: Subject<void> = new BehaviorSubject(void(0));
+  private scanPartials$ = combineLatest([this.partialsDirectoryPath$, this.scanPartialsSubject])
+    .pipe(
+      tap(([directoryPath]) => this.filePathService.scanPartials(directoryPath)),
+    );
+
   private outputSubject: Subject<string> = new Subject();
   public output$ = merge(this.outputSubject, this.filePathService.output$.pipe(map(({ output }) => output && output.split("/").pop() || null)));
 
@@ -57,6 +63,8 @@ export class HandlebarsComponent {
     );
 
   public failure$ = merge(this.submittingSubject.pipe(mapTo(false)), this.generatorService.htmlFailure$);
+
+  private subscription = this.scanPartials$.subscribe();
 
   constructor(
     private filePathService: FilePathService,
@@ -79,6 +87,10 @@ export class HandlebarsComponent {
     this.filePathService.dispatchShowPartialsDialog();
   }
 
+  refreshPartialFiles() {
+    this.scanPartialsSubject.next();
+  }
+
   changeOutput(value: string) {
     this.outputSubject.next(value);
   }
@@ -86,5 +98,9 @@ export class HandlebarsComponent {
   submit({ directoryPath, templatePath, dataPath, partialPaths, output }) {
     this.submittingSubject.next();
     this.generatorService.generateHtml(directoryPath, templatePath, dataPath, partialPaths, output);
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
