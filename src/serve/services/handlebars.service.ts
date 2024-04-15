@@ -14,14 +14,14 @@ import * as constants from "../../electron.constants";
 export class HandlebarsService {
   private readFile = promisify(fs.readFile);
   private writeFile = promisify(fs.writeFile);
-  public generate$ = fromIpcMainEvent<{ directoryPath: string, templatePath: string, dataPath: string, partialPaths: string[], output: string}>(constants.GENERATE_HANDLEBARS)
+  public generate$ = fromIpcMainEvent<{ directoryPath: string, templatePath: string, dataPath: string, partialPaths: string[], output: string, noEscape: boolean }>(constants.GENERATE_HANDLEBARS)
     .pipe(
-      switchMap(({ event, args: [{ directoryPath, templatePath, dataPath, partialPaths, output}]}) => {
+      switchMap(({ event, args: [{ directoryPath, templatePath, dataPath, partialPaths, output, noEscape }]}) => {
         const registerPartialFiles$ = this.registerPartialFiles(partialPaths);
 
         const template$ = from(this.readFile(templatePath, { encoding: "utf8" }))
           .pipe(
-            map((file) => handlebars.compile(file, { noEscape: true }))
+            map((file) => handlebars.compile(file, { noEscape }))
           );
       
         const data$ = from(this.readFile(dataPath, { encoding: "utf8" }))

@@ -35,9 +35,15 @@
       <input type="hidden" name="partialPaths" [ngModel]="partialPaths$ | async" />
     </div>
     <hr />
-    <div>
-      <div>Output File Name:</div>
-      <input type="text" name="output" [ngModel]="output$ | async" (ngModelChange)="changeOutput($event)" required />
+    <div style="display: flex">
+      <div>
+        <div>Output File Name:</div>
+        <input type="text" name="output" [ngModel]="output$ | async" (ngModelChange)="changeOutput($event)" required />
+      </div>
+      <div style="text-align: right">
+        <div><abbr title="Escapes HTML characters in strings from data file, such as quotation marks (&quot;) escaped to &amp;quot;">Escape Characters:</abbr></div>
+        <input type="checkbox" name="escape" [(ngModel)]="escape" />
+      </div>
     </div>
   </fieldset>
   <div>

@@ -50,6 +50,8 @@ export class HandlebarsComponent implements OnDestroy {
   private outputSubject: Subject<string> = new Subject();
   public output$ = merge(this.outputSubject, this.filePathService.output$.pipe(map(({ output }) => output && output.split("/").pop() || null)));
 
+  public escape: boolean;
+
   private submittingSubject: Subject<void> = new Subject();
   public submitting$ = merge(
     this.submittingSubject.pipe(mapTo(true)),
@@ -95,9 +97,9 @@ export class HandlebarsComponent implements OnDestroy {
     this.outputSubject.next(value);
   }
 
-  submit({ directoryPath, templatePath, dataPath, partialPaths, output }) {
+  submit({ directoryPath, templatePath, dataPath, partialPaths, output, escape }) {
     this.submittingSubject.next();
-    this.generatorService.generateHtml(directoryPath, templatePath, dataPath, partialPaths, output);
+    this.generatorService.generateHtml(directoryPath, templatePath, dataPath, partialPaths, output, !escape);
   }
 
   ngOnDestroy() {
