@@ -97,9 +97,9 @@ export class HandlebarsComponent implements OnDestroy {
     this.outputSubject.next(value);
   }
 
-  submit({ directoryPath, templatePath, dataPath, partialPaths, output, escape }) {
+  submit({ directoryPath, templatePath, dataPath, partialsDirectoryPath, output, escape }) {
     this.submittingSubject.next();
-    this.generatorService.generateHtml(directoryPath, templatePath, dataPath, partialPaths, output, !escape);
+    this.generatorService.generateHtml(directoryPath, templatePath, dataPath, partialsDirectoryPath, output, !escape);
   }
 
   ngOnDestroy() {

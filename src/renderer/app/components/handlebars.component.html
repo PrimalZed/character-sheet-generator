@@ -27,6 +27,7 @@
       <div>{{ (partialsDirectoryPath$ | async) || "(none)" }}</div>
       <button type="button" (click)="selectPartialsDirectoryPath()">Change...</button>
       <button type="button" (click)="refreshPartialFiles()">Refresh</button>
+      <input type="hidden" name="partialsDirectoryPath" [ngModel]="partialsDirectoryPath$ | async" />
       <div>
         <div>Found Partial files:</div>
         <div *ngIf="!(partialPaths$ | async)?.length">(none)</div>

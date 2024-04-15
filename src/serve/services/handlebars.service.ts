@@ -5,6 +5,7 @@ import { catchError, last, map, mergeMap, switchMap, tap } from "rxjs/operators"
 import { promisify } from "util";
 import * as fs from "fs";
 import * as handlebars from "handlebars";
+import { ScanService } from './scan.service';
 import * as helpersLib from "../utilities/handlebars-helpers";
 import * as handlebarsRepeat from "handlebars-helper-repeat";
 import * as path from "path";
@@ -14,8 +15,13 @@ import * as constants from "../../electron.constants";
 export class HandlebarsService {
   private readFile = promisify(fs.readFile);
   private writeFile = promisify(fs.writeFile);
-  public generate$ = fromIpcMainEvent<{ directoryPath: string, templatePath: string, dataPath: string, partialPaths: string[], output: string, noEscape: boolean }>(constants.GENERATE_HANDLEBARS)
+  public generate$ = fromIpcMainEvent<{ directoryPath: string, templatePath: string, dataPath: string, partialsDirectoryPath: string, output: string, noEscape: boolean }>(constants.GENERATE_HANDLEBARS)
     .pipe(
+      switchMap(async ({ event, args: [{ directoryPath, templatePath, dataPath, partialsDirectoryPath, output, noEscape }]}) => {
+        const partialPaths = await new ScanService().scanPartials(partialsDirectoryPath);
+
+        return { event, args: [{ directoryPath, templatePath, dataPath, partialPaths, output, noEscape }] };
+      }),
       switchMap(({ event, args: [{ directoryPath, templatePath, dataPath, partialPaths, output, noEscape }]}) => {
         const registerPartialFiles$ = this.registerPartialFiles(partialPaths);
 

@@ -20,7 +20,7 @@ export class GeneratorService {
 
   constructor(private ipcRendererService: IpcRendererService) { }
 
-  generateHtml(directoryPath: string, templatePath: string, dataPath: string, partialPaths: string[], output: string, noEscape: boolean) {
-    ipcRenderer.send(constants.GENERATE_HANDLEBARS, { templatePath, dataPath, partialPaths, directoryPath, output, noEscape });
+  generateHtml(directoryPath: string, templatePath: string, dataPath: string, partialsDirectoryPath: string, output: string, noEscape: boolean) {
+    ipcRenderer.send(constants.GENERATE_HANDLEBARS, { templatePath, dataPath, partialsDirectoryPath, directoryPath, output, noEscape });
   }
 }

@@ -37,6 +37,10 @@ export class ScanService {
         event.reply(constants.SCAN_PARTIALS_SUCCESS, filePaths);
       })
     );
+  
+  public async scanPartials(directoryPath) {
+    return this.checkFiles(directoryPath, this.createPatterns(["**"], ["hbs", "handlebars"]));
+  }
 
   private checkFile(root: string, patterns: { directory: string, extension: string }[]): Promise<string> {
     return this.checkFiles(root, patterns, true)
