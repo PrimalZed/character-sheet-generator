@@ -48,7 +48,7 @@ export class ScanService {
   }
 
   private checkFiles(root: string, patterns: { directory: string, extension: string }[], exitOnFirstMatch: boolean = false): Promise<string[]> {
-    if (!patterns.length) {
+    if (!root || !patterns.length) {
       return Promise.resolve([]);
     }
 
